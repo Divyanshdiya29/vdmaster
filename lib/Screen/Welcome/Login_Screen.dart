@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:vediostream/widgets/custom_button.dart';
 
+import '../../resource/auth_method.dart';
+
 class LoginSc extends StatefulWidget {
   const LoginSc({super.key});
 
@@ -9,6 +11,8 @@ class LoginSc extends StatefulWidget {
 }
 
 class _LoginScState extends State<LoginSc> {
+  final AuthMethods _authMethods = AuthMethods();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,11 +24,15 @@ class _LoginScState extends State<LoginSc> {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 38),
           child: Image.asset('assets/onboarding.jpg'),
-
         ),
-        CustomButton(onPressed: () {
-
-        }, text: "Google Sign in.."),
+        CustomButton(
+            onPressed: () async {
+              bool res = await _authMethods.signInWithGoogle(context);
+              if (res) {
+                Navigator.pushNamed(context, '/home');
+              }
+            },
+            text: "Google Sign in.."),
       ]),
     );
   }

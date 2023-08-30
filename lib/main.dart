@@ -1,10 +1,15 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:vediostream/Screen/Welcome/Login_Screen.dart';
+import 'package:vediostream/resource/auth_method.dart';
 import 'package:vediostream/utils/colors.dart';
 
+import 'Screen/HomeSc.dart';
 import 'Screen/Welcome/SplashSc.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -20,11 +25,23 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: backgroundColor,
       ),
-      // routes:
-      // {
-      //   '/login':(context)=> const LoginSc(),
-      // },
-      home: LoginSc(),
+      routes: {
+        '/login': (context) => const LoginSc(),
+        '/home': (context) => const HomeSc(),
+      },
+      home: StreamBuilder(
+        stream: AuthMethods().authchanges,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (snapshot.hasData) {
+            return const HomeSc();
+          }
+          return const LoginSc();
+        },
+      ),
     );
   }
 }
