@@ -14,7 +14,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false,
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Video Stream',
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: backgroundColor,
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
       // {
       //   '/login':(context)=> const LoginSc(),
       // },
-      home: SplashSc(),
+      home: LoginSc(),
     );
   }
 }
